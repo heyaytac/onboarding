@@ -1,20 +1,23 @@
-import { put, head } from '@vercel/blob';
+import { put, list } from '@vercel/blob';
 import { Question, QuestionsData } from './types';
 
 const BLOB_NAME = 'questions.json';
 
 export async function getQuestions(): Promise<Question[]> {
   try {
-    // Try to get the existing blob
-    const blobUrl = `${process.env.BLOB_URL || ''}/${BLOB_NAME}`;
-    const response = await fetch(blobUrl, { cache: 'no-store' });
+    // List blobs to find our questions file
+    const { blobs } = await list();
+    const questionsBlob = blobs.find(blob => blob.pathname === BLOB_NAME);
 
-    if (response.ok) {
-      const data: QuestionsData = await response.json();
-      return data.questions;
+    if (questionsBlob) {
+      const response = await fetch(questionsBlob.url, { cache: 'no-store' });
+      if (response.ok) {
+        const data: QuestionsData = await response.json();
+        return data.questions;
+      }
     }
   } catch (error) {
-    console.log('No existing questions file, starting fresh');
+    console.log('No existing questions file, starting fresh:', error);
   }
 
   return [];
