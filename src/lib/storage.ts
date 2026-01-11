@@ -26,6 +26,7 @@ export async function saveQuestions(questions: Question[]): Promise<void> {
   await put(BLOB_NAME, JSON.stringify(data, null, 2), {
     access: 'public',
     addRandomSuffix: false,
+    allowOverwrite: true,
   });
 }
 

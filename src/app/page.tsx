@@ -20,7 +20,7 @@ export default function Home() {
       const data = await res.json();
       setQuestions(data.questions || []);
     } catch (error) {
-      console.error('Error fetching questions:', error);
+      console.error('Fehler beim Laden der Fragen:', error);
     } finally {
       setLoading(false);
     }
@@ -43,7 +43,7 @@ export default function Home() {
         fetchQuestions();
       }
     } catch (error) {
-      console.error('Error submitting question:', error);
+      console.error('Fehler beim Absenden der Frage:', error);
     } finally {
       setSubmitting(false);
     }
@@ -65,12 +65,12 @@ export default function Home() {
         fetchQuestions();
       }
     } catch (error) {
-      console.error('Error submitting answer:', error);
+      console.error('Fehler beim Absenden der Antwort:', error);
     }
   }
 
   async function handleDeleteQuestion(questionId: string) {
-    if (!confirm('Are you sure you want to delete this question?')) return;
+    if (!confirm('Sind Sie sicher, dass Sie diese Frage löschen möchten?')) return;
 
     try {
       const res = await fetch(`/api/questions/${questionId}`, {
@@ -81,7 +81,7 @@ export default function Home() {
         fetchQuestions();
       }
     } catch (error) {
-      console.error('Error deleting question:', error);
+      console.error('Fehler beim Löschen der Frage:', error);
     }
   }
 
@@ -96,53 +96,53 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <div className="max-w-4xl mx-auto px-4 py-8">
         <header className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            Q&A Platform
+          <h1 className="text-4xl font-bold text-black mb-2">
+            Fragen & Antworten
           </h1>
           <p className="text-gray-600">
-            Ask questions and get answers from our team
+            Stellen Sie Ihre Fragen und erhalten Sie Antworten von unserem Team
           </p>
         </header>
 
-        {/* Question Form */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <h2 className="text-lg font-semibold text-gray-800 mb-4">
-            Ask a Question
+        {/* Frage-Formular */}
+        <div className="border border-gray-300 rounded-lg p-6 mb-8">
+          <h2 className="text-lg font-semibold text-black mb-4">
+            Frage stellen
           </h2>
           <form onSubmit={handleSubmitQuestion} className="flex flex-col gap-4">
             <textarea
               value={newQuestion}
               onChange={(e) => setNewQuestion(e.target.value)}
-              placeholder="Type your question here..."
-              className="w-full p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+              placeholder="Geben Sie Ihre Frage hier ein..."
+              className="w-full p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent text-black"
               rows={3}
             />
             <button
               type="submit"
               disabled={submitting || !newQuestion.trim()}
-              className="self-end px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="self-end px-6 py-2 bg-black text-white rounded-lg font-medium hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
-              {submitting ? 'Submitting...' : 'Submit Question'}
+              {submitting ? 'Wird gesendet...' : 'Frage absenden'}
             </button>
           </form>
         </div>
 
-        {/* Questions List */}
+        {/* Fragen-Liste */}
         <div className="space-y-6">
-          <h2 className="text-xl font-semibold text-gray-800">
-            Questions ({questions.length})
+          <h2 className="text-xl font-semibold text-black">
+            Fragen ({questions.length})
           </h2>
 
           {loading ? (
             <div className="text-center py-8 text-gray-500">
-              Loading questions...
+              Fragen werden geladen...
             </div>
           ) : questions.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
-              No questions yet. Be the first to ask!
+              Noch keine Fragen vorhanden. Stellen Sie die erste Frage!
             </div>
           ) : (
             <div className="space-y-4">
@@ -152,28 +152,28 @@ export default function Home() {
                 .map((q) => (
                   <div
                     key={q.id}
-                    className="bg-white rounded-lg shadow-md overflow-hidden"
+                    className="border border-gray-300 rounded-lg overflow-hidden"
                   >
-                    {/* Question */}
-                    <div className="p-6 border-b border-gray-100">
+                    {/* Frage */}
+                    <div className="p-6 border-b border-gray-200">
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-2">
-                            <span className="px-2 py-1 bg-orange-100 text-orange-800 text-xs font-semibold rounded">
+                            <span className="px-2 py-1 bg-black text-white text-xs font-semibold rounded">
                               Radhaus
                             </span>
                             <span className="text-xs text-gray-500">
                               {formatDate(q.createdAt)}
                             </span>
                           </div>
-                          <p className="text-gray-900 whitespace-pre-wrap">
+                          <p className="text-black whitespace-pre-wrap">
                             {q.question}
                           </p>
                         </div>
                         <button
                           onClick={() => handleDeleteQuestion(q.id)}
-                          className="text-gray-400 hover:text-red-500 transition-colors"
-                          title="Delete question"
+                          className="text-gray-400 hover:text-black transition-colors"
+                          title="Frage löschen"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -191,18 +191,18 @@ export default function Home() {
                       </div>
                     </div>
 
-                    {/* Answer */}
+                    {/* Antwort */}
                     {q.answer ? (
-                      <div className="p-6 bg-green-50">
+                      <div className="p-6 bg-gray-50">
                         <div className="flex items-center gap-2 mb-2">
-                          <span className="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded">
+                          <span className="px-2 py-1 bg-white text-black text-xs font-semibold rounded border border-black">
                             Voisa
                           </span>
                           <span className="text-xs text-gray-500">
                             {q.answeredAt && formatDate(q.answeredAt)}
                           </span>
                         </div>
-                        <p className="text-gray-900 whitespace-pre-wrap">
+                        <p className="text-black whitespace-pre-wrap">
                           {q.answer}
                         </p>
                       </div>
@@ -210,7 +210,7 @@ export default function Home() {
                       <div className="p-6 bg-gray-50">
                         <div className="flex items-center gap-2 mb-3">
                           <span className="px-2 py-1 bg-gray-200 text-gray-600 text-xs font-semibold rounded">
-                            Awaiting Answer
+                            Wartet auf Antwort
                           </span>
                         </div>
                         <div className="flex gap-2">
@@ -222,16 +222,16 @@ export default function Home() {
                                 [q.id]: e.target.value,
                               })
                             }
-                            placeholder="Type your answer here..."
-                            className="flex-1 p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900"
+                            placeholder="Geben Sie Ihre Antwort hier ein..."
+                            className="flex-1 p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent text-black"
                             rows={2}
                           />
                           <button
                             onClick={() => handleSubmitAnswer(q.id)}
                             disabled={!answerInputs[q.id]?.trim()}
-                            className="px-4 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors self-end"
+                            className="px-4 py-2 bg-black text-white rounded-lg font-medium hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors self-end"
                           >
-                            Answer
+                            Antworten
                           </button>
                         </div>
                       </div>

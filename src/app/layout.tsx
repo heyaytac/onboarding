@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Q&A Platform - Radhaus & Voisa",
-  description: "Ask questions and get answers from our team",
+  title: "Fragen & Antworten - Radhaus & Voisa",
+  description: "Stellen Sie Ihre Fragen und erhalten Sie Antworten von unserem Team",
 };
 
 export default function RootLayout({
@@ -12,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="de">
       <body className="antialiased">
         {children}
       </body>
